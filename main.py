@@ -85,11 +85,12 @@ coleccion = CrearColecciones()
 coleccion.agregar_docentes(nombres_docentes, identificaciones, id_profesionales)
 coleccion.agregar_estudiantes(nombres_estudiantes, identificaciones, numeros_matriculas)
 coleccion.agregar_libros(titulos_libros, nombre_autores, anos_publicaciones)
+biblioteca = Biblioteca(coleccion.estudiantes+coleccion.docentes,coleccion.libros)
 print(coleccion.docentes)
 print(coleccion.estudiantes)
 print(coleccion.libros)
 
 
 if __name__ == '__main__':
-    menu = Menu()
+    menu = Menu(biblioteca)
     menu.menu_principal(coleccion)

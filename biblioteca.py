@@ -1,4 +1,6 @@
 from excepciones import *
+from datetime import datetime, timedelta
+from prestamo import Prestamo
 class Biblioteca:
     def __init__(self,usuarios,libros_disponibles):
         self.usuarios = usuarios
@@ -7,8 +9,8 @@ class Biblioteca:
     def mostrar_libros_disponibles(self):
         for libro in self.libros_disponibles:
             print(libro)
-    def prestar_libros(self,usuario,libro,*args):
-        libros_a_prestar = [libro] + list(args)
+    def prestar_libros(self,usuario,libros):
+        libros_a_prestar = libros
         try:
             prestamos = []
             if usuario in self.usuarios:

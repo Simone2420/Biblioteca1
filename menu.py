@@ -3,8 +3,8 @@ from biblioteca import Biblioteca
 def solo_letras_y_espacios(cadena):
     return all(caracter.isalpha() or caracter.isspace() for caracter in cadena)
 class Menu:
-    def __init__(self):
-        pass
+    def __init__(self,biblioteca):
+        self.biblioteca = biblioteca
     def menu_registro(self,coleccion):
         while True:
             print("Registro")
@@ -192,7 +192,8 @@ class Menu:
                     if numero_libros <= usuario.obtener_limite_libros():
                         for i in range(numero_libros):
                             libro_prestado = input(f"Ingrese el nombre del libro número {i}: ")
-                            
+                            biblioteca.mostrar_libros_disponibles()
+
                 case 2:
                     break
                 case _:
