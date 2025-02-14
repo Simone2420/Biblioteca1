@@ -135,9 +135,50 @@ class Menu:
                         print("Error: Tipo de usuario no válido.")
                 case 2:
                     print("Volviendo al menú principal.")
+                    self.menu_principal(coleccion)
+                case _:
+                    print("Opción inválida. Intente de nuevo.")
+    def menu_usuario(self,coleccion,usuario):
+        while True:
+            print(f"Bienvenido {usuario.obtener_tipo()} {usuario.obtener_nombre()}")
+            print("1.) Ver libros disponibles.")
+            print("2.) Pedir prestado libros.")
+            print("3.) Devolver libros.")
+            print("4.)Ver estadisticas (libros prestados)")
+            print("5.) Cerrar sesión")
+            opcion = int(input("Selecciona una opción: "))
+            match opcion:
+                case 1:
+                    self.ver_libros_disponibles(coleccion)
+                case 2:
+                    pass
+                case 3:
+                    pass
+                case 4:
+                    pass
+                case 5:
+                    pass
+                case _:
+                    pass
+    def ver_libros_disponibles(self,coleccion):
+        while True:
+            print("Ver libros disponibles")
+            print("¿Desea ver los libros disponibles?: ")
+            print("1.) Si")
+            print("2.) No")
+            opcion = int(input("Ingrese su opción (escriba 1 o 2): "))
+            match opcion:
+                case 1:
+                    print("\Libros disponibles:")
+                    for libro in coleccion.libros:
+                        print(f"Libro {libro.obtener_titulo()} / Autor {libro.obtener_autor()} /Año publicación: {libro.obtener_ano_publicacion()}")
+                    input("Presione cualquier tecla para volver al menu principal.")
+                    self.menu_principal(coleccion)
+                case 2:
                     break
                 case _:
                     print("Opción inválida. Intente de nuevo.")
+
     def menu_principal(self,coleccion):
         while True:
             print("\nBienvenido a la Biblioteca de la Universidad de Cundinamarca\n")
@@ -155,7 +196,7 @@ class Menu:
                 case 3:
                     self.menu_ingreso_usuario(coleccion)
                 case 4:
-                    pass
+                    self.ver_libros_disponibles(coleccion)
                 case 5:
                     pass
                 case _:
