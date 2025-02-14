@@ -1,4 +1,5 @@
 from excepciones import *
+from biblioteca import Biblioteca
 def solo_letras_y_espacios(cadena):
     return all(caracter.isalpha() or caracter.isspace() for caracter in cadena)
 class Menu:
@@ -178,7 +179,24 @@ class Menu:
                     break
                 case _:
                     print("Opción inválida. Intente de nuevo.")
-
+    def menu_prestar_libro_a_usuario(self,usuario,biblioteca,coleccion):
+        while True:
+            print("Prestar Libro (s)")
+            print("¿Desea pedir prestados los libros?: ")
+            print("1.) Si")
+            print("2.) No")
+            opcion = int(input("Ingrese su opción (escriba 1 o 2): "))
+            match opcion:
+                case 1:
+                    numero_libros = int(input(f"¿Cuantos libros va solicitar prestado limite de {usuario.obtener_limite_libros()}?: "))
+                    if numero_libros <= usuario.obtener_limite_libros():
+                        for i in range(numero_libros):
+                            libro_prestado = input(f"Ingrese el nombre del libro número {i}: ")
+                            
+                case 2:
+                    break
+                case _:
+                    print("Opción inválida. Intente de nuevo.")
     def menu_principal(self,coleccion):
         while True:
             print("\nBienvenido a la Biblioteca de la Universidad de Cundinamarca\n")
