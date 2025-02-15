@@ -28,7 +28,7 @@ class Biblioteca:
         libros_a_prestar = libros
         try:
             prestamos = []
-            if usuario in self.usuarios:
+            if usuario:
                 if len(libros_a_prestar) + usuario.obtener_cantidad_libros_a_prestar() > usuario.obtener_limite_libros():
                     raise LimitePrestamosExcedido("El usuario excede su límite de préstamos")
                 for libro in libros_a_prestar:
