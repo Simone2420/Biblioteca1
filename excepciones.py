@@ -1,4 +1,3 @@
-# Definición de excepciones personalizadas
 class LimitePrestamosExcedido(Exception):
     """Excepción lanzada cuando un usuario excede su límite de préstamos."""
     def __init__(self, mensaje="El usuario ha excedido su límite de préstamos"):

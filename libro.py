@@ -1,11 +1,13 @@
 class Libro:
+    titulo = ""
+    autor = ""
+    ano_publicacion = 0
+    disponible = True
     def __init__(self, titulo, autor, ano_publicacion):
         self._titulo = titulo
         self._autor = autor
         self._ano_publicacion = ano_publicacion
-        self._disponible = True  # Estado inicial: disponible
-
-    # Métodos getters
+        self._disponible = True  
     def obtener_titulo(self):
         return self._titulo
 
