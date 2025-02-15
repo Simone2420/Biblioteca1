@@ -1,6 +1,10 @@
 from datetime import datetime, timedelta
 
 class Prestamo:
+    usuario = None
+    libro = None
+    fecha_prestamo = None
+    fecha_devolucion = None 
     def __init__(self, usuario, libro):
         self._usuario = usuario
         self._libro = libro

@@ -1,4 +1,10 @@
 class Usuario:
+    nombre = ""
+    identificacion = 0
+    tipo = ""
+    cantidad_libros_a_prestar = 0
+    libros_prestado = []
+    limite_libros =0
     def __init__(self, nombre, identificacion, tipo):
         self.__nombre = nombre  
         self.__identificacion = identificacion
@@ -56,6 +62,7 @@ class Usuario:
     def __repr__(self):
         return f"{self.obtener_nombre()} es {self.obtener_tipo()}"
 class Estudiante(Usuario):
+    matricula = 0
     def __init__(self, nombre, identificacion, matricula):
         super().__init__(nombre, identificacion, tipo="estudiante")
         self._matricula = matricula
@@ -64,8 +71,14 @@ class Estudiante(Usuario):
     def obtener_matricula(self):
         return self._matricula
 
-
+    def mostrar_informacion(self):
+        print(f"\nNombre: {self.obtener_nombre()}")
+        print(f"ID: {self.obtener_identificacion()}")
+        print(f"Número matricula: {self.obtener_matricula()}")
+        print(f"Tipo: {self.obtener_tipo()}")
+        print(f"Libros Prestados: {[libro.obtener_titulo() for libro in self._libros_prestados]}")
 class Docente(Usuario):
+    id_profesional = 0
     def __init__(self, nombre, identificacion, id_profesional):
         super().__init__(nombre, identificacion, tipo="docente")
         self.__id_profesional = id_profesional
@@ -73,3 +86,9 @@ class Docente(Usuario):
 
     def obtener_id_profesional(self):
         return self.__id_profesional
+    def mostrar_informacion(self):
+        print(f"\nNombre: {self.obtener_nombre()}")
+        print(f"ID: {self.obtener_identificacion()}")
+        print(f"Id profesional: {self.obtener_id_profesional()}")
+        print(f"Tipo: {self.obtener_tipo()}")
+        print(f"Libros Prestados: {[libro.obtener_titulo() for libro in self._libros_prestados]}")

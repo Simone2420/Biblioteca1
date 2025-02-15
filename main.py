@@ -5,7 +5,6 @@ from biblioteca import Biblioteca
 from excepciones import *
 from menu import Menu
 import random
-import sys
 
 nombres_docentes = ["Carlos Inti","Blass Muñoz"]
 nombres_estudiantes = ["Diego Ortiz","Hediberto de las Nieves", "Alberto Fonseca"]
@@ -43,6 +42,9 @@ nombre_autores = [
 ]
 anos_publicaciones = [random.randint(1800,2025) for _ in range(20)]
 class CrearColecciones:
+    docentes = []
+    estudiantes = []
+    libros = []
     def __init__(self):
         self.docentes = []
         self.estudiantes = []
@@ -86,10 +88,6 @@ coleccion.agregar_docentes(nombres_docentes, identificaciones, id_profesionales)
 coleccion.agregar_estudiantes(nombres_estudiantes, identificaciones, numeros_matriculas)
 coleccion.agregar_libros(titulos_libros, nombre_autores, anos_publicaciones)
 biblioteca = Biblioteca(coleccion.estudiantes+coleccion.docentes,coleccion.libros)
-print(coleccion.docentes)
-print(coleccion.estudiantes)
-print(coleccion.libros)
-
 
 if __name__ == '__main__':
     menu = Menu(biblioteca)

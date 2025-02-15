@@ -2,15 +2,28 @@ from excepciones import *
 from prestamo import Prestamo
 
 class Biblioteca:
+    usuarios = None
+    libros_disponibles = None
+    lista_prestamos = None
+    historico_prestamos = []
     def __init__(self, usuarios, libros_disponibles):
         self.usuarios = usuarios
         self.libros_disponibles = libros_disponibles
         self.lista_prestamos = []
-
+        self.historico_prestamos = []
     def mostrar_libros_disponibles(self):
         for libro in self.libros_disponibles:
             print(libro)
 
+    def mostrar_historico_prestamos(self):
+        if self.historico_prestamos or self.lista_prestamos != []:
+            for prestamo in self.historico_prestamos:
+                print(f"Usuario {prestamo.obtener_usuario()}")
+                print(f"Libro {prestamo.obtener_libro()}")
+                print(f"Fecha prestamos {prestamo.obtener_fecha_prestamo()}")
+                print(f"Fecha de devolucion {prestamo.obtener_fecha_devolucion()} \n")
+        else:
+            print(f"No se ha realizado prestamos hasta el momento.")
     def prestar_libros(self, usuario, libros):
         libros_a_prestar = libros
         try:
@@ -26,6 +39,7 @@ class Biblioteca:
                     usuario.prestar_libro(libro)
                     prestamo = Prestamo(usuario, libro)
                     self.lista_prestamos.append(prestamo)
+                    self.historico_prestamos.append(prestamo)
                     prestamos.append(prestamo)
                     libro.establecer_estado(False)  # Marcar libro como no disponible
                 numero_libros_prestar += len(libros_a_prestar)
@@ -64,12 +78,11 @@ class Biblioteca:
                     if prestamo.obtener_libro() == libro_devuelto and prestamo.obtener_usuario() == usuario:
                         prestamo.registrar_devolucion(numero_dias)
                         prestamo.mostrar_informacion()
-                        # Restablecer el estado del libro a disponible
                         libro_devuelto.establecer_estado(True)
-                        # Agregar el libro a la lista de libros disponibles si no está ya
                         self.agregar_libros(libro_devuelto)
-                        # Eliminar el préstamo de la lista de préstamos activos
                         self.lista_prestamos.remove(prestamo)
+                        self.historico_prestamos.remove(prestamo)
+                        self.historico_prestamos.append(prestamo)
                         # Devolver el libro al usuario
                         usuario.devolver_libro(libro_devuelto)
                         
