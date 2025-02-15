@@ -44,10 +44,11 @@ class Biblioteca:
                     libro.establecer_estado(False)  # Marcar libro como no disponible
                 numero_libros_prestar += len(libros_a_prestar)
                 usuario.establecer_cantidad_libros_a_prestar(numero_libros_prestar)
-                usuario.establecer_limite_libros(usuario.obtener_limite_libros() - numero_libros_prestar)  # Actualizar contador
+                usuario.establecer_limite_libros(usuario.obtener_limite_libros() - numero_libros_prestar)
+                usuario.establecer_cantidad_libros_a_prestar(0)  # Actualizar contador
                 return prestamos
             else:
-                raise UsuarioNoRegistrado()
+                raise UsuarioNoRegistrado("Usuario no registrado")
         except (UsuarioNoRegistrado, LimitePrestamosExcedido) as e:
             print(f"Error: {e}")
         
@@ -88,7 +89,7 @@ class Biblioteca:
                         
             # Actualizar el límite de libros del usuario con el número guardado
             usuario.establecer_limite_libros(usuario.obtener_limite_libros() + numero_libros_devueltos)
-
+            usuario.establecer_cantidad_libros_a_prestar(0)
         except NoHayLibrosParaDevolver as e:
             print(f"Error: {e}")
             print("Volviendo al menú principal")

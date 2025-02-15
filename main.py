@@ -5,7 +5,6 @@ from biblioteca import Biblioteca
 from excepciones import *
 from menu import Menu
 import random
-
 nombres_docentes = ["Carlos Inti","Blass Muñoz"]
 nombres_estudiantes = ["Diego Ortiz","Hediberto de las Nieves", "Alberto Fonseca"]
 identificaciones = [random.randint(10000000,99999999) for _ in range(5)]

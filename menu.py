@@ -1,6 +1,7 @@
 import os
 from excepciones import *
 from biblioteca import Biblioteca
+import sys
 def solo_letras_y_espacios(cadena):
     return all(caracter.isalpha() or caracter.isspace() for caracter in cadena)
 def limpiar_consola():
@@ -333,7 +334,7 @@ class Menu:
                 case 5:
                     self.mostrar_prestamos_totales()
                 case 6:
-                    break
+                    sys.exit()
                 case _:
                     print("Opción inválida. Intente de nuevo.")
     
