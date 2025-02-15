@@ -109,7 +109,7 @@ class Menu:
                                     break
                             if docente_encontrado:
                                 print(f"Bienvenido, {docente_encontrado.obtener_nombre()}.")
-                                # Aquí puedes llamar a un menú específico para docentes
+                                self.menu_usuario(coleccion, docente_encontrado)
                             else:
                                 print("Error: No se encontró un docente con esa identificación.")
                         except ValueError:
@@ -127,7 +127,7 @@ class Menu:
                                     break
                             if estudiante_encontrado:
                                 print(f"Bienvenido, {estudiante_encontrado.obtener_nombre()}.")
-                                # Aquí puedes llamar a un menú específico para estudiantes
+                                self.menu_usuario(coleccion, estudiante_encontrado)
                             else:
                                 print("Error: No se encontró un estudiante con esa identificación.")
                         except ValueError:
@@ -145,14 +145,14 @@ class Menu:
             print("1.) Ver libros disponibles.")
             print("2.) Pedir prestado libros.")
             print("3.) Devolver libros.")
-            print("4.)Ver estadisticas (libros prestados)")
+            print("4.) Ver estadisticas (libros prestados)")
             print("5.) Cerrar sesión")
             opcion = int(input("Selecciona una opción: "))
             match opcion:
                 case 1:
                     self.ver_libros_disponibles(coleccion)
                 case 2:
-                    pass
+                    self.menu_prestar_libro_a_usuario(usuario,self.biblioteca,coleccion)
                 case 3:
                     pass
                 case 4:
@@ -188,16 +188,37 @@ class Menu:
             opcion = int(input("Ingrese su opción (escriba 1 o 2): "))
             match opcion:
                 case 1:
+                    libros_a_prestar = []
                     numero_libros = int(input(f"¿Cuantos libros va solicitar prestado limite de {usuario.obtener_limite_libros()}?: "))
                     if numero_libros <= usuario.obtener_limite_libros():
+                        biblioteca.mostrar_libros_disponibles()
+                        lista_libros_disponibles_aux = coleccion.libros
+                        
                         for i in range(numero_libros):
-                            libro_prestado = input(f"Ingrese el nombre del libro número {i}: ")
-                            biblioteca.mostrar_libros_disponibles()
-
+                            libro_prestado = input(f"Ingrese el nombre del libro número {i+1}: ")
+                            libro_encontrado = None
+                            for libro in lista_libros_disponibles_aux:
+                                if libro.obtener_titulo().lower() == libro_prestado.lower():
+                                    libro_encontrado = libro
+                                    break
+                            if libro_encontrado:
+                                if libro_encontrado.obtener_esta_disponible():
+                                    libros_a_prestar.append(libro_encontrado)
+                                    indice_libro = lista_libros_disponibles_aux.index(libro_encontrado)
+                                    lista_libros_disponibles_aux.pop(indice_libro)
+                                    print(f"Libro '{libro_encontrado.obtener_titulo()}' agregado para préstamo.")
+                                else:
+                                    print(f"Error: El libro '{libro_encontrado.obtener_titulo()}' no está disponible.")
+                            else:
+                                print(f"Error: El libro '{libro_prestado}' no existe en la biblioteca.")
+                    prestamos = self.biblioteca.prestar_libros(usuario,libros_a_prestar)
+                    for p in prestamos:
+                        p.mostrar_informacion()
                 case 2:
                     break
                 case _:
                     print("Opción inválida. Intente de nuevo.")
+    
     def menu_principal(self,coleccion):
         while True:
             print("\nBienvenido a la Biblioteca de la Universidad de Cundinamarca\n")

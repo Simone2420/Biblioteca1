@@ -13,8 +13,8 @@ class Prestamo:
 
     # Método para mostrar información del préstamo
     def mostrar_informacion(self):
-        print(f"Usuario: {self._usuario.get_nombre()}")
-        print(f"Libro: {self._libro.get_titulo()}")
+        print(f"Usuario: {self._usuario.obtener_nombre()}")
+        print(f"Libro: {self._libro.obtener_titulo()}")
         print(f"Fecha de Préstamo: {self._fecha_prestamo.strftime('%Y-%m-%d')}")
         if self._fecha_devolucion:
             print(f"Fecha de Devolución: {self._fecha_devolucion.strftime('%Y-%m-%d')}")

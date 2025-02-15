@@ -27,28 +27,30 @@ class Usuario:
         self.__cantidad_libros_a_prestar = nueva_cantidad_libros_a_prestar
     def obtener_limite_libros(self):
         return self._limite_libros
+    def establecer_limite_libros(self,nuevo_limite):
+        self._limite_libros = nuevo_limite
     # Método para mostrar información del usuario
     def mostrar_informacion(self):
-        print(f"Nombre: {self.obtener_nombre()}")
+        print(f"\nNombre: {self.obtener_nombre()}")
         print(f"ID: {self.obtener_identificacion()}")
         print(f"Tipo: {self.obtener_tipo()}")
-        print(f"Libros Prestados: {[libro.titulo for libro in self._libros_prestados]}")
+        print(f"Libros Prestados: {[libro.obtener_titulo() for libro in self._libros_prestados]}")
 
     # Método para prestar un libro
     def prestar_libro(self, libro):
-        if libro.disponible:
+        if libro.obtener_esta_disponible():
             self._libros_prestados.append(libro)
             libro.prestar()
-            print(f"Libro '{libro.titulo}' prestado exitosamente.")
-        else: #como meter una excepcion
-            print(f"El libro '{libro.titulo}' no está disponible.")
+            print(f"Libro '{libro.obtener_titulo()}' prestado exitosamente.")
+        else: 
+            print(f"El libro '{libro.obtener_titulo()}' no está disponible.")
     def devolver_libro(self, libro):
         if libro in self._libros_prestados:
             libro.devolver()
-            print(f"Libro '{libro.titulo}' devuelto exitosamente.")
+            print(f"Libro '{libro.obtener_titulo()}' devuelto exitosamente.")
             self._libros_prestados.remove(libro)
         else: 
-            print(f"El libro '{libro.titulo}' no fue prestado a este usuario.")
+            print(f"El libro '{libro.obtener_titulo()}' no fue prestado a este usuario.")
     def __str__(self):
         return f"{self.obtener_nombre()} es {self.obtener_tipo()}"
     def __repr__(self):

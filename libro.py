@@ -15,7 +15,7 @@ class Libro:
     def obtener_ano_publicacion(self):
         return self._ano_publicacion
 
-    def esta_disponible(self):
+    def obtener_esta_disponible(self):
         return self._disponible
 
     # Métodos para cambiar el estado del libro

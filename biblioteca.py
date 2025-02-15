@@ -22,24 +22,24 @@ class Biblioteca:
                 numero_libros_prestar = 0
                 for libro in libros_a_prestar:
                     usuario.prestar_libro(libro)
-                    prestamo = Prestamo(usuario, libro, datetime.now())
+                    prestamo = Prestamo(usuario, libro)
                     self.lista_prestamos.append(prestamo)
                     prestamos.append(prestamo)
                 numero_libros_prestar += len(libros_a_prestar)
-                usuario.establecer_cantidad_libros_a_prestar(numero_libros_prestar)  # Actualizar contador
+                usuario.establecer_cantidad_libros_a_prestar(numero_libros_prestar)
+                usuario.establecer_limite_libros(usuario.obtener_cantidad_libros_a_prestar()-numero_libros_prestar) # Actualizar contador
                 return prestamos
             else:
                 raise UsuarioNoRegistrado()
         except (UsuarioNoRegistrado, LimitePrestamosExcedido) as e:
             print(f"Error: {e}")
-            print("Volviendo al menu principal")
-
+            
         except LibroNoDisponible as e:
             for prestamo in prestamos:
                 libro.establecer_estado(True)
                 self.prestamos_activos.remove(prestamo)
             print(f"Error: {e}")
-            print("Volviendo al menu principal")
+            
         
     def devolver_libros(self, usuario):
         try:
