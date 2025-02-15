@@ -167,8 +167,7 @@ class Menu:
             elif opcion == "4":
                 self.mostrar_estadisticas(usuario) 
             elif opcion == "5":
-                print("Cerrando sesión...")
-                break
+                self.menu_ingreso_usuario(coleccion)
             else:
                 print("Opción no válida. Intenta de nuevo.")
     def ver_libros_disponibles(self,coleccion):
@@ -283,7 +282,7 @@ class Menu:
                 case 4:
                     self.ver_libros_disponibles(coleccion)
                 case 5:
-                    pass
+                    break
                 case _:
                     print("Opción inválida. Intente de nuevo.")
     

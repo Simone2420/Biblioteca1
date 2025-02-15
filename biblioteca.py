@@ -36,11 +36,14 @@ class Biblioteca:
                 raise UsuarioNoRegistrado()
         except (UsuarioNoRegistrado, LimitePrestamosExcedido) as e:
             print(f"Error: {e}")
+        
         except LibroNoDisponible as e:
-            for prestamo in prestamos:
-                prestamo.libro.establecer_estado(True)  # Restablecer estado del libro
-                self.lista_prestamos.remove(prestamo)  # Eliminar préstamo de la lista
             print(f"Error: {e}")
+        # Revertir cambios en caso de error
+            for prestamo in prestamos:
+                prestamo.obtener_libro().establecer_estado(True)  # Restablecer estado del libro
+                self.lista_prestamos.remove(prestamo)  # Eliminar préstamo de la lista
+                usuario.devolver_libro(prestamo.obtener_libro())
 
     def agregar_libros(self, libro):
         """Agrega un libro a la lista de libros disponibles si no está ya en la lista."""
@@ -52,10 +55,9 @@ class Biblioteca:
             libros_prestados = usuario.obtener_libros_prestados()
             if len(libros_prestados) == 0:
                 raise NoHayLibrosParaDevolver(f"El usuario {usuario} no tiene libros para devolver")
-            
-            # Crear una copia de la lista de libros prestados para evitar problemas durante la iteración
+            numero_libros_devueltos = len(libros_prestados)
             libros_prestados_copia = libros_prestados.copy()
-            
+
             for libro_devuelto in libros_prestados_copia:
                 # Buscar el préstamo correspondiente al libro y al usuario
                 for prestamo in self.lista_prestamos:
@@ -70,11 +72,10 @@ class Biblioteca:
                         self.lista_prestamos.remove(prestamo)
                         # Devolver el libro al usuario
                         usuario.devolver_libro(libro_devuelto)
-                        break
-            
-            # Actualizar el límite de libros del usuario
-            usuario.establecer_limite_libros(usuario.obtener_limite_libros() + len(libros_prestados))
-        
+                        
+            # Actualizar el límite de libros del usuario con el número guardado
+            usuario.establecer_limite_libros(usuario.obtener_limite_libros() + numero_libros_devueltos)
+
         except NoHayLibrosParaDevolver as e:
             print(f"Error: {e}")
             print("Volviendo al menú principal")
