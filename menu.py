@@ -1,10 +1,18 @@
+import os
 from excepciones import *
 from biblioteca import Biblioteca
 def solo_letras_y_espacios(cadena):
     return all(caracter.isalpha() or caracter.isspace() for caracter in cadena)
+def limpiar_consola():
+    if os.name == 'nt': # Para Windows
+        os.system('cls')
+    else: # Para Linux/macOS
+        os.system('clear')
+
 class Menu:
     def __init__(self,biblioteca):
         self.biblioteca = biblioteca
+    
     def menu_registro(self,coleccion):
         while True:
             print("Registro")
@@ -139,28 +147,30 @@ class Menu:
                     self.menu_principal(coleccion)
                 case _:
                     print("Opción inválida. Intente de nuevo.")
-    def menu_usuario(self,coleccion,usuario):
+    def menu_usuario(self, coleccion, usuario):
         while True:
+            limpiar_consola()
             print(f"Bienvenido {usuario.obtener_tipo()} {usuario.obtener_nombre()}")
             print("1.) Ver libros disponibles.")
             print("2.) Pedir prestado libros.")
             print("3.) Devolver libros.")
-            print("4.) Ver estadisticas (libros prestados)")
-            print("5.) Cerrar sesión")
-            opcion = int(input("Selecciona una opción: "))
-            match opcion:
-                case 1:
-                    self.ver_libros_disponibles(coleccion)
-                case 2:
-                    self.menu_prestar_libro_a_usuario(usuario,self.biblioteca,coleccion)
-                case 3:
-                    pass
-                case 4:
-                    pass
-                case 5:
-                    pass
-                case _:
-                    pass
+            print("4.) Ver estadísticas (libros prestados).")
+            print("5.) Cerrar sesión.")
+            opcion = input("Selecciona una opción: ")
+
+            if opcion == "1":
+                self.ver_libros_disponibles(coleccion)
+            elif opcion == "2":
+                self.menu_prestar_libro_a_usuario(usuario, self.biblioteca, coleccion) 
+            elif opcion == "3":
+                self.menu_devolver_libros_por_usuario(usuario, self.biblioteca, coleccion) 
+            elif opcion == "4":
+                self.mostrar_estadisticas(usuario) 
+            elif opcion == "5":
+                print("Cerrando sesión...")
+                break
+            else:
+                print("Opción no válida. Intenta de nuevo.")
     def ver_libros_disponibles(self,coleccion):
         while True:
             print("Ver libros disponibles")
@@ -174,7 +184,7 @@ class Menu:
                     for libro in coleccion.libros:
                         print(f"Libro {libro.obtener_titulo()} / Autor {libro.obtener_autor()} /Año publicación: {libro.obtener_ano_publicacion()}")
                     input("Presione cualquier tecla para volver al menu principal.")
-                    self.menu_principal(coleccion)
+                    break
                 case 2:
                     break
                 case _:
@@ -211,14 +221,49 @@ class Menu:
                                     print(f"Error: El libro '{libro_encontrado.obtener_titulo()}' no está disponible.")
                             else:
                                 print(f"Error: El libro '{libro_prestado}' no existe en la biblioteca.")
-                    prestamos = self.biblioteca.prestar_libros(usuario,libros_a_prestar)
-                    for p in prestamos:
-                        p.mostrar_informacion()
+                    try:
+                        prestamos = self.biblioteca.prestar_libros(usuario,libros_a_prestar)
+                        for p in prestamos:
+                            p.mostrar_informacion()
+                    except TypeError as e:
+                        print(f"Error: {e}")
+                        break
                 case 2:
                     break
                 case _:
                     print("Opción inválida. Intente de nuevo.")
-    
+    def menu_devolver_libros_por_usuario(self,usuario,biblioteca,coleccion):
+        while True:
+            print("Devolver Libros")
+            print("¿Desea devolver los libros?: ")
+            print("1.) Si")
+            print("2.) No")
+            opcion = int(input("Ingrese su opción (escriba 1 o 2): "))
+            match opcion:
+                case 1:
+                    dias_transcurridos_prestamo = int(input("Hace cuantos días solicitó prestado el libro?: "))
+                    biblioteca.devolver_libros(usuario,dias_transcurridos_prestamo)
+                case 2:
+                    self.menu_usuario(coleccion,usuario)
+                case _:
+                    print("Opción inválida. Intente de nuevo.")
+    def mostrar_estadisticas(self,usuario):
+        while True:
+            print("Ver estadisticas usuario")
+            print("¿Desea ver las estadisticas del usuario?: ")
+            print("1.) Si")
+            print("2.) No")
+            opcion = int(input("Ingrese su opción (escriba 1 o 2): "))
+            match opcion:
+                case 1:
+                    usuario.mostrar_informacion()
+                    input("Presione cualquier tecla para volver al menu principal.")
+                    break
+                case 2:
+                    break
+                case _:
+                    print("Opción inválida. Intente de nuevo.")
+
     def menu_principal(self,coleccion):
         while True:
             print("\nBienvenido a la Biblioteca de la Universidad de Cundinamarca\n")
@@ -240,5 +285,5 @@ class Menu:
                 case 5:
                     pass
                 case _:
-                    pass
+                    print("Opción inválida. Intente de nuevo.")
     

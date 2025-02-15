@@ -1,5 +1,4 @@
 from excepciones import *
-from datetime import datetime, timedelta
 from prestamo import Prestamo
 class Biblioteca:
     def __init__(self,usuarios,libros_disponibles):
@@ -41,18 +40,19 @@ class Biblioteca:
             print(f"Error: {e}")
             
         
-    def devolver_libros(self, usuario):
+    def devolver_libros(self, usuario,numero_dias):
         try:
             if len(usuario.obtener_libros_prestados()) == 0:
                 raise NoHayLibrosParaDevolver(f"El usuario {usuario} no tiene libros para devolver")
             else:
-                for prestamo in self.lista_prestamos():
-                    prestamo.registrar_devolucion()
+                for prestamo in self.lista_prestamos:
+                    prestamo.registrar_devolucion(numero_dias)
+                    prestamo.mostrar_informacion()
                 for libro_duevuelto in usuario.obtener_libros_prestados():
                     usuario.devolver_libro(libro_duevuelto)
         except NoHayLibrosParaDevolver as e:
             print(f"Error: {e}")
             print("Volviendo al menu principal")
-        except Exception as e:
+        """except Exception as e:
             print(f"Error {e}")
-            print("Volviendo al menu principal")
+            print("Volviendo al menu principal")"""
